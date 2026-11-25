@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <!-- 휴대폰 화면 폭에 맞춰 보이게 하는 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>포트폴리오</title>
+  <meta name="description" content="AI로 빠르게 만들고, 결과는 직접 확인합니다.">
+  <!-- 글꼴: Pretendard (CDN). 불러오지 못하면 style.css의 시스템 글꼴로 보임 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- defer: HTML을 다 읽은 뒤 스크립트 실행 -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- 상단 메뉴: href의 #이름이 아래 section의 id와 짝을 이룸 -->
+  <header class="top">
+    <nav class="menu" aria-label="섹션 메뉴">
+      <a href="#work">일하는 방식</a>
+      <a href="#project">프로젝트</a>
+      <a href="#cases">검증 사례</a>
+      <a href="#about">이 페이지</a>
+      <a href="#skills">기술과 자격</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- 1. 첫 화면 -->
+    <section class="hero">
+      <p class="name">이수연</p>
+      <p class="intro">이화여대 컴퓨터공학 4학년 · 졸업프로젝트 AI 파트</p>
+      <h1>AI로 빠르게 만들고, 결과는 직접 확인합니다.</h1>
+      <p class="lead">코드는 AI 코딩 도구로 만들고, 실행·운영·검증·판단은 제가 합니다. 아래는 그렇게 진행한 졸업프로젝트 기록입니다.</p>
+      <p><a href="https://github.com/yeoeone5">GitHub</a></p>
+    </section>
+
+    <!-- 2. 일하는 방식 -->
+    <section id="work">
+      <h2>일하는 방식</h2>
+      <!-- 번호는 CSS 카운터로 붙임 -->
+      <ol class="steps" role="list">
+        <li>
+          <h3>요구를 먼저 정리</h3>
+          <p>무엇을, 어떤 기준으로 확인할지 먼저 적고 AI에게 맡깁니다.</p>
+        </li>
+        <li>
+          <h3>AI로 만들기</h3>
+          <p>수집기, 점검 쿼리, 학습 코드를 AI 코딩 <span class="keep">도구(Claude)로</span> 만들었습니다.</p>
+        </li>
+        <li>
+          <h3>직접 돌리고 운영하기</h3>
+          <p>9월 11일부터 5분 수집기를 운영하며 모니터링으로 오류를 잡았습니다.</p>
+        </li>
+        <li>
+          <h3>결과를 의심하고 검증하기</h3>
+          <p>숫자가 맞는지 Excel로 다시 계산하고, 모델은 단순한 기준선과 비교했습니다.</p>
+        </li>
+      </ol>
+      <!-- 코랄색 왼쪽 세로줄 문장 -->
+      <blockquote>AI가 만든 결과가 "그럴듯해 보이는 것"과 "맞는 것"은 다릅니다. 그 차이를 확인하는 게 제 일이라고 생각합니다.</blockquote>
+    </section>
+
+    <!-- 3. 프로젝트 -->
+    <section id="project">
+      <h2>프로젝트: 소아 응급실 병상 예측 <span class="sub">(졸업프로젝트, 팀 Sync 3명, AI 파트)</span></h2>
+
+      <h3>문제</h3>
+      <p>아이가 아파 응급실에 가도 소아 병상이 없으면 다른 병원으로 다시 옮겨야 합니다. 공공 API의 실시간 병상 수는 '지금' 값일 뿐이라, 도착 시점(예: 30분 뒤)의 소아 병상을 예측하는 서비스를 만들고 있습니다.</p>
+
+      <!-- 숫자 4개: dt = 큰 숫자, dd = 작은 설명 -->
+      <dl class="numbers">
+        <div><dt>124<small>곳</small></dt><dd>수집 대상 응급실 (소아 병상 운영 41곳)</dd></div>
+        <div><dt>5<small>분</small></dt><dd>수집 주기</dd></div>
+        <div><dt><small>약</small> 153<small>만 건</small></dt><dd>병원별 관측 (9/11 ~ 11/2)</dd></div>
+        <div><dt>4<small>건</small></dt><dd>점검 쿼리 8개로 찾은 데이터 품질 이슈</dd></div>
+      </dl>
+
+      <h3>데이터 흐름</h3>
+      <!-- 화살표는 CSS로 넣음: 넓은 화면 →, 좁은 화면 ↓ -->
+      <ol class="flow" role="list">
+        <li>공공 API(국립중앙의료원)</li>
+        <li>5분 수집기(Python)</li>
+        <li>SQLite 저장 + 원본 JSON 보관</li>
+        <li>SQL 점검 8개</li>
+        <li>예측 모델 검증(LightGBM vs 기준선)</li>
+      </ol>
+    </section>
+
+    <!-- 4. 검증 사례: 각 사례는 상황 / 확인 / 결과 세 줄 -->
+    <section id="cases">
+      <h2>AI가 만든 것을 검증한 사례 3가지</h2>
+
+      <article class="case">
+        <h3><span class="no">사례 1.</span> 수집기가 멈춰 있던 시간 찾기</h3>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>AI로 만든 수집기를 운영하는 중, 기록이 비는 구간이 있었습니다.</dd>
+          <dt>확인</dt>
+          <dd>SQL의 LAG 함수로 직전 수집 시각과의 간격을 계산해 15분 넘게 빈 구간을 찾았습니다. 86건(서울 52, 경기 34), 가장 긴 공백은 약 285시간이었습니다.</dd>
+          <dt>결과</dt>
+          <dd>스케줄러 경로를 고치고, 공백을 감지하도록 바꿨습니다.</dd>
+        </dl>
+        <!-- 대표 SQL. 부등호 >는 HTML에서 &gt;로 적음. long = 좁은 화면에서 접히는 긴 줄 -->
+        <pre><code>WITH r AS (
+  SELECT stage1, ts,
+<span class="long">         LAG(ts) OVER (PARTITION BY stage1 ORDER BY ts) AS prev_ts</span>
+  FROM runs WHERE ok = 1)
+SELECT stage1, prev_ts, ts,
+<span class="long">       ROUND((julianday(ts) - julianday(prev_ts)) * 1440) AS gap_min</span>
+FROM r
+WHERE gap_min &gt; 15        -- 15분 초과만
+ORDER BY gap_min DESC;</code></pre>
+      </article>
+
+      <article class="case">
+        <h3><span class="no">사례 2.</span> 저장된 값과 원본이 달랐던 문제</h3>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>정원 필드 이름이 명세(HVS02)와 달리 소문자(hvs02)로 와서, 9/11~9/30 데이터 100,554건이 저장되지 않았습니다.</dd>
+          <dt>확인</dt>
+          <dd>원본 JSON과 저장된 값을 날짜별로 비교해 누락 기간과 건수를 확정했고, 결과를 Excel로 다시 계산했습니다.</dd>
+          <dt>결과</dt>
+          <dd>대소문자를 통일하고, 보관해 둔 원본 JSON에서 복원했습니다.</dd>
+        </dl>
+      </article>
+
+      <article class="case">
+        <h3><span class="no">사례 3.</span> 오차는 줄었는데 결과는 나빠진 모델</h3>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>LightGBM 모델이 값이 바뀐 구간의 오차(MAE)를 1.287석에서 1.249석으로 2.9% 줄였습니다. 숫자만 보면 개선입니다.</dd>
+          <dt>확인</dt>
+          <dd>'30분 뒤에도 지금과 같다'는 기준선과 비교하고, 보호자가 실제로 겪는 '헛걸음'(자리 있다고 했는데 도착하면 0석)을 따로 셌습니다. 헛걸음이 616건에서 638건으로 늘었습니다.</dd>
+          <dt>결과</dt>
+          <dd>"아직 기준선을 넘지 못했다"고 팀에 그대로 보고했고, 팀은 헛걸음률을 메인 지표로 정했습니다.</dd>
+        </dl>
+
+        <!-- 결과 표: 메인 지표인 헛걸음 줄만 강조(key) -->
+        <table class="result">
+          <thead>
+            <tr><th scope="col">지표 (30분 뒤, test 58,000건)</th><th scope="col">기준선</th><th scope="col">모델 v1</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">오차, 값이 바뀐 구간 (MAE)</th><td>1.287석</td><td>1.249석</td></tr>
+            <tr><th scope="row">오차, 전체 (MAE)</th><td>0.274석</td><td>0.276석</td></tr>
+            <tr class="key"><th scope="row">헛걸음 건수</th><td>616건</td><td>638건</td></tr>
+            <tr><th scope="row">놓침 건수</th><td>601건</td><td>568건</td></tr>
+          </tbody>
+        </table>
+        <p class="note">병원 ID를 빼고 학습해도 결과가 거의 같아, 모델이 병원을 외운 것은 아님을 확인했습니다.</p>
+      </article>
+    </section>
+
+    <!-- 5. 이 페이지에 대해 -->
+    <section id="about">
+      <h2>이 페이지에 대해</h2>
+      <ul class="lines" role="list">
+        <li>이 페이지는 Claude Code로 만들고 GitHub Pages로 배포했습니다.</li>
+        <!-- 만든 뒤 요청해서 고치고 확인한 것 -->
+        <li>
+          만든 뒤 Claude Code에 요청해 고치고 확인한 것
+          <ul class="done">
+            <li>강조색을 이화그린과 그에 어울리는 코랄로 변경</li>
+            <li>단계 번호와 소제목을 한 줄에 붙이고 글자 크기 통일</li>
+            <li>페이지의 숫자를 원고(content.md)와 하나씩 대조</li>
+            <li>브라우저 창을 휴대폰 폭으로 줄여 깨지는 곳을 점검하고, 어색한 줄바꿈 4곳 수정</li>
+          </ul>
+        </li>
+        <li>작업 기록: <a href="https://github.com/yeoeone5/yeoeone5.github.io/commits/main">저장소 커밋 기록</a></li>
+      </ul>
+    </section>
+
+    <!-- 6. 기술과 자격 -->
+    <section id="skills">
+      <h2>기술과 자격</h2>
+      <table class="skills">
+        <thead>
+          <tr><th scope="col">구분</th><th scope="col">내용</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">AI 도구</th><td>Claude, Claude Code</td></tr>
+          <tr><th scope="row">데이터</th><td>Python (pandas), SQL (SQLite, 윈도우 함수)</td></tr>
+          <tr><th scope="row">모델</th><td>LightGBM, scikit-learn</td></tr>
+          <tr><th scope="row">웹</th><td>HTML, CSS, JavaScript (이 페이지)</td></tr>
+          <tr><th scope="row">협업·배포</th><td>Git, GitHub Pages</td></tr>
+          <tr><th scope="row">검산·문서</th><td>Excel, PowerPoint</td></tr>
+          <tr><th scope="row">자격</th><td>정보처리기사 (2024.12), 컴퓨터활용능력 1급 (2023.06)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- 7. 맨 아래 -->
+  <footer>
+    <p>소아 응급실 병상 예측 · 졸업프로젝트 팀 Sync · 2026</p>
+  </footer>
+
+</body>
+</html>
