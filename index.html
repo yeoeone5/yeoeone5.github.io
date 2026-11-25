@@ -20,6 +20,7 @@
       <a href="#work">일하는 방식</a>
       <a href="#project">프로젝트</a>
       <a href="#cases">검증 사례</a>
+      <a href="#services">운영 중인 서비스</a>
       <a href="#about">이 페이지</a>
       <a href="#skills">기술과 자격</a>
     </nav>
@@ -32,7 +33,7 @@
       <p class="name">이수연</p>
       <p class="intro">이화여대 컴퓨터공학 4학년 · 졸업프로젝트 AI 파트</p>
       <h1>AI로 빠르게 만들고, 결과는 직접 확인합니다.</h1>
-      <p class="lead">코드는 AI 코딩 도구로 만들고, 실행·운영·검증·판단은 제가 합니다. 아래는 그렇게 진행한 졸업프로젝트 기록입니다.</p>
+      <p class="lead">코드는 AI 코딩 도구로 만들고, 실행·운영·검증·판단은 제가 합니다. 아래는 그렇게 진행한 졸업프로젝트와, 직접 운영 중인 서비스 두 개의 기록입니다.</p>
       <p><a href="https://github.com/yeoeone5">GitHub</a></p>
     </section>
 
@@ -153,7 +154,95 @@ ORDER BY gap_min DESC;</code></pre>
       </article>
     </section>
 
-    <!-- 5. 이 페이지에 대해 -->
+    <!-- 5. 운영 중인 서비스: 서비스마다 소개 → 기본 정보 → 운영하며 고친 것 -->
+    <section id="services">
+      <h2>직접 운영 중인 서비스 2개</h2>
+      <p class="lead">동아리 사람들이 실제로 쓰고 있는 웹앱 두 개를 만들어 운영하고 있습니다. 코드는 Claude Code로 만들었고, 규칙 설계·배포·운영·문제 대응은 제가 합니다.</p>
+
+      <article class="case">
+        <h3><span class="no">1.</span> 벌크업 인증앱</h3>
+        <p>검도부 지인 약 8명이 6개월 동안 운동을 인증하고, 매달 마지막 날 랭킹을 보는 웹앱</p>
+        <dl class="rows info">
+          <dt>기간</dt>
+          <dd>2026년 8월 3일 시즌 시작, 지금도 운영 중 (시즌 종료 2027년 1월 31일)</dd>
+          <dt>링크</dt>
+          <dd><a href="https://bulkup-ekum.vercel.app">https://bulkup-ekum.vercel.app</a> (카카오 로그인이 필요합니다)</dd>
+          <dt>기술</dt>
+          <dd>HTML · CSS · JavaScript (프레임워크 없음), Supabase (Postgres, 로그인, 사진 저장), 카카오 로그인, Vercel, 홈 화면에 추가해 쓰는 웹앱(PWA)</dd>
+          <dt>설계 원칙</dt>
+          <dd>인증률과 랭킹 계산은 전부 DB 뷰에서 하고, 화면은 보여 주기만 합니다. 누가 무엇을 볼 수 있는지는 RLS 정책으로 막습니다.</dd>
+        </dl>
+
+        <h4>운영하며 고친 것</h4>
+        <h5><span class="no">1.</span> 날짜가 하루 밀린 문제</h5>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>8월 6일 아침, 인증 화면에 전날 날짜(8월 <span class="keep">5일)가</span> 떴습니다.</dd>
+          <dt>확인</dt>
+          <dd>오전 9시 전에만 생기는 문제였고, 화면 코드와 DB(서버는 UTC 기준) 양쪽에 원인이 하나씩 있었습니다. 낮에 테스트하면 멀쩡해 보여서 늦게 발견됐습니다.</dd>
+          <dt>결과</dt>
+          <dd>날짜를 모두 한국 시간 기준으로 바꾸고, 같은 실수를 grep으로 찾아내는 점검 방법을 문서에 남겼습니다.</dd>
+        </dl>
+        <h5><span class="no">2.</span> 일부 사람만 식단 화면이 안 열린 문제</h5>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>9월에 몇몇 참가자만 식단 기록이 안 된다는 이야기가 나왔습니다. 제 계정에서는 재현되지 않았습니다.</dd>
+          <dt>확인</dt>
+          <dd>'선택'이라고 안내한 식단 목표를 건너뛴 사람만 DB에서 기록이 거절되고, 화면은 그 탭을 조용히 잠그고 있었습니다.</dd>
+          <dt>결과</dt>
+          <dd>목표가 없어도 기록되도록 DB와 화면을 같이 고쳤습니다. 한쪽만 고치면 다시 막힌다는 점도 문서에 적었습니다.</dd>
+        </dl>
+        <h5><span class="no">3.</span> 이미 발표한 결과가 바뀔 수 있었던 규칙 수정</h5>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>참가자 제보로, '20분 이상 운동만 인정' 규칙이 원래보다 이른 8월 10일부터 적용돼 일부 기록이 빠진 것을 알았습니다.</dd>
+          <dt>확인</dt>
+          <dd>시작일을 옮기면 이미 발표한 월간 랭킹까지 다시 계산되기 때문에, 옮기기 전에 누가 며칠 늘어나는지, 미달에서 통과로 바뀌는 달이 있는지를 쿼리로 먼저 뽑아 봤습니다.</dd>
+          <dt>결과</dt>
+          <dd>영향을 확인한 뒤 시작일을 9월 1일로 옮겼습니다.</dd>
+        </dl>
+      </article>
+
+      <article class="case">
+        <h3><span class="no">2.</span> 검도부 출결 관리</h3>
+        <p>검도부 정규운동 출석을 GPS로 확인하는 웹앱. 부원은 도장 반경 500m 안에서 출석 버튼을 누르고, 임원진 4명은 전체 명단과 누적 통계를 봅니다.</p>
+        <dl class="rows info">
+          <dt>기간</dt>
+          <dd>2026년 9월부터 사용 (11월 21일부터 검도부 휴동 기간이라 쉬는 중)</dd>
+          <dt>사용자</dt>
+          <dd>사범님 포함 25명이 사용했고, 중간에 휴동한 2명을 빼면 현재 23명</dd>
+          <dt>링크</dt>
+          <dd><a href="https://kendo-attendance.vercel.app">https://kendo-attendance.vercel.app</a> (부원 전용, 카카오 로그인이 필요합니다)</dd>
+          <dt>기술</dt>
+          <dd>React · TypeScript · Vite, Supabase (Postgres, 로그인), 카카오 로그인, Vercel, PWA</dd>
+          <dt>설계 원칙</dt>
+          <dd>출석·지각 판정은 화면이 아니라 서버 함수가 합니다. 서버 시각과 서버에 저장된 도장 좌표로 거리와 시간을 다시 계산하므로, 화면에서 "출석입니다"라고 보낼 수 없습니다. 일반 부원은 RLS 정책 때문에 본인 기록만 받아 볼 수 있습니다.</dd>
+        </dl>
+
+        <h4>운영하며 고친 것</h4>
+        <h5><span class="no">1.</span> 도장 좌표가 약 900m 어긋난 문제</h5>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>처음 도장 좌표를 주소를 보고 눈대중으로 잡았는데, 경도가 약 900m 어긋나 있었습니다. 반경을 500m로 잡았기 때문에 그대로 두면 도장에 있어도 출석이 안 됩니다.</dd>
+          <dt>확인</dt>
+          <dd>OpenStreetMap에 등록된 건물 중심 좌표와 비교했습니다.</dd>
+          <dt>결과</dt>
+          <dd>좌표를 보정하고, 좌표를 바꿀 때는 도장에서 실제 거리 표시를 확인하라고 문서에 남겼습니다.</dd>
+        </dl>
+        <h5><span class="no">2.</span> 출결 집계를 흔들지 않는 '기록용 출석'</h5>
+        <dl class="rows">
+          <dt>상황</dt>
+          <dd>배정 요일이 아닌 날 도장에 나온 것도 남길 방법이 필요했습니다.</dd>
+          <dt>확인</dt>
+          <dd>정식 출석 기록과 섞으면 결석 계산이 흔들린다는 점을 확인했습니다.</dd>
+          <dt>결과</dt>
+          <dd>위치 확인 없이 남기는 개인 기록을 별도 테이블로 분리해, 출결 집계에는 들어가지 않게 만들었습니다.</dd>
+        </dl>
+        <p class="note">남아 있는 한계: 계정을 빌려 주거나 위치를 위조하면 막지 못합니다. 서버가 거리를 다시 계산해도 좌표 자체가 거짓이면 통과하기 때문입니다. 이 한계는 README에 그대로 적어 두었습니다.</p>
+      </article>
+    </section>
+
+    <!-- 6. 이 페이지에 대해 -->
     <section id="about">
       <h2>이 페이지에 대해</h2>
       <ul class="lines" role="list">
@@ -172,7 +261,7 @@ ORDER BY gap_min DESC;</code></pre>
       </ul>
     </section>
 
-    <!-- 6. 기술과 자격 -->
+    <!-- 7. 기술과 자격 -->
     <section id="skills">
       <h2>기술과 자격</h2>
       <table class="skills">
@@ -183,8 +272,9 @@ ORDER BY gap_min DESC;</code></pre>
           <tr><th scope="row">AI 도구</th><td>Claude, Claude Code</td></tr>
           <tr><th scope="row">데이터</th><td>Python (pandas), SQL (SQLite, 윈도우 함수)</td></tr>
           <tr><th scope="row">모델</th><td>LightGBM, scikit-learn</td></tr>
-          <tr><th scope="row">웹</th><td>HTML, CSS, JavaScript (이 페이지)</td></tr>
-          <tr><th scope="row">협업·배포</th><td>Git, GitHub Pages</td></tr>
+          <tr><th scope="row">웹</th><td>HTML, CSS, JavaScript, React, TypeScript, Vite</td></tr>
+          <tr><th scope="row">백엔드·DB</th><td>Supabase (Postgres, RLS), 카카오 로그인</td></tr>
+          <tr><th scope="row">협업·배포</th><td>Git, GitHub Pages, Vercel</td></tr>
           <tr><th scope="row">검산·문서</th><td>Excel, PowerPoint</td></tr>
           <tr><th scope="row">자격</th><td>정보처리기사 (2024.12), 컴퓨터활용능력 1급 (2023.06)</td></tr>
         </tbody>
@@ -193,7 +283,7 @@ ORDER BY gap_min DESC;</code></pre>
 
   </main>
 
-  <!-- 7. 맨 아래 -->
+  <!-- 8. 맨 아래 -->
   <footer>
     <p>소아 응급실 병상 예측 · 졸업프로젝트 팀 Sync · 2026</p>
   </footer>

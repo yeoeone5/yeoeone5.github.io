@@ -239,6 +239,16 @@ pre {
 }
 code { font-family: Consolas, Menlo, "D2Coding", Pretendard, "Malgun Gothic", monospace; }
 
+/* ---------- 5. 운영 중인 서비스 (사례의 .case, .rows를 같이 씀) ---------- */
+#services .case { margin-top: 48px; }
+.info {                             /* 기간·링크·기술 등 기본 정보 */
+  grid-template-columns: 5.5em 1fr;
+  margin-top: 18px;
+}
+.info dt { color: var(--green); }
+h4 { margin-top: 36px; font-size: 18px; }
+h5 { margin: 20px 0 10px; font-size: 17px; }
+
 /* ---------- 표 ---------- */
 table {
   width: 100%;
@@ -283,7 +293,7 @@ thead th {
 
 .note { margin-top: 12px; color: var(--sub); font-size: 14px; }
 
-/* ---------- 5. 이 페이지에 대해 ---------- */
+/* ---------- 6. 이 페이지에 대해 ---------- */
 .lines > li {
   padding: 11px 0;
   border-bottom: 1px solid var(--line);
@@ -297,7 +307,7 @@ thead th {
 }
 .done li::marker { color: var(--coral); }
 
-/* ---------- 7. 맨 아래 ---------- */
+/* ---------- 8. 맨 아래 ---------- */
 footer p {
   padding: 28px 0 48px;
   border-top: 1px solid var(--line);
@@ -328,6 +338,7 @@ footer p {
   .flow li + li::before { content: "↓"; display: block; }
 
   .rows { grid-template-columns: 3em 1fr; }
+  .info { grid-template-columns: 5em 1fr; }
   pre { font-size: 12px; }
 
   table { font-size: 15px; }
@@ -335,10 +346,13 @@ footer p {
   .skills th:first-child { width: 6em; }
 }
 
-/* ---------- 아주 좁은 화면: 메뉴를 한 줄로 유지 ---------- */
-@media (max-width: 370px) {
-  .menu { gap: 0 8px; }
-}
-@media (max-width: 340px) {
-  .menu a { font-size: 12px; }
+/* ---------- 휴대폰: 메뉴 6개를 세 개씩 두 줄로 ---------- */
+@media (max-width: 480px) {
+  :root { --bar: 73px; }           /* 두 줄이 된 메뉴 높이 */
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    justify-items: start;
+    gap: 0 24px;
+  }
 }
