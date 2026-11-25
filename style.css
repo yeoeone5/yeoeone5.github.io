@@ -271,7 +271,15 @@ thead th {
 .result .key td:last-child { color: var(--coral); }
 
 .skills th:first-child { width: 8em; padding-right: 12px; }
-.skills tbody th { color: var(--sub); }
+.skills thead th {             /* 머리글: 작고 흐리게 해서 물러나 보이게 */
+  color: var(--sub);
+  font-size: 14px;
+}
+.skills tbody th {             /* 구분: 이화그린 굵은 글씨 */
+  color: var(--green);
+  font-weight: 700;
+}
+.skills tbody td { color: var(--text); }   /* 내용: 보통 굵기의 본문색 */
 
 .note { margin-top: 12px; color: var(--sub); font-size: 14px; }
 
